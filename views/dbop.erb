@@ -1,0 +1,76 @@
+<div class="ml-4 mt-4">
+  <div class="mb-3">
+    <h2>収支状況（day）</h2>
+  </div>
+
+  <table class="mb-5 table-bordered table-hover table-striped bg-light">
+    <form action="/dbop" metod="get">
+      <tr class="bg-secondary text-center">
+        <th><label for="dayly_balance_of_payments">対象日（day）</label></th>
+        <th>送信</th>
+      </tr>
+      <tr>
+        <td><input type="date" id="dayly_balance_of_payments" name="dayly_balance_of_payments"></td>
+        <td><input type="submit" value="送信"></td>
+      </tr>
+    </form>
+  </table>
+
+  <div>
+    <h4>収入一覧</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+      <tr class="bg-secondary text-center">
+        <th class="px-5">日付</th>
+        <th class="px-5">項目</th>
+        <th class="px-5">金額</th>
+      </tr>
+    <% @incomes.each do |income| %>
+    <% if !income['income'].nil? %>
+      <tr class="text-center">
+        <td><%= income['date_of_income']%></td>
+        <td><%= income['income_type'] %></td>
+        <td><%= income['income'] %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </table>
+  </div>
+
+  <div>
+    <h4>支出一覧</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+      <tr class="bg-secondary text-center">
+        <th class="px-5">日付</th>
+        <th class="px-5">項目</th>
+        <th class="px-5">金額</th>
+      </tr>
+    <% @expenses.each do |expense| %>
+    <% if !expense['expense'].nil? %>
+      <tr class="text-center">
+        <td><%= expense['date_of_expense']%></td>
+        <td><%= expense['expense_type'] %></td>
+        <td><%= expense['expense'] %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </table>
+  </div>
+
+  <div>
+    <h4>収支バランス</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+        <tr class="bg-secondary text-center">
+          <th class="px-5">総収入</th>
+          <th class="px-5">総支出</th>
+          <th class="px-5">収支バランス</th>
+        </tr>
+        <tr class="text-center">
+          <td><%= @total_income_by_day['sum'] %></td>
+          <td><%= @total_expenditure_by_day['sum'] %></td>
+          <td><%= primary_balance %></td>
+        </tr>
+    </table>
+  </div>
+
+  <a href="/mypage"><button type="button" class="btn btn-secondary btn-lg mt-5">戻る</button></a>
+</div>

@@ -1,0 +1,107 @@
+<div class="ml-4 mt-4">
+  <div class="mb-3">
+    <h2>収支状況（range）</h2>
+  </div>
+
+  <table class="mb-5 table-bordered table-hover table-striped bg-light">
+    <form action="/wbop" method="get">
+      <tr class="bg-secondary text-center">
+        <th colspan="4"><label for="date_range">表示期間指定</label></th>
+      </tr>
+      <tr class="bg-secondary text-center">
+        <th>開始日</th>
+        <th>　〜　</th>
+        <th>終了日</th>
+        <th>送信</th>
+      </tr>
+      <tr>
+        <td><input type="date" id="start_date" name="start_date" value="<%= @start_date %>"></td>
+        <td>　〜　</td>
+        <td><input type="date" id="end_date" name="end_date" value="<%= @end_date %>"></td>
+        <td><input type="submit" value="送信"></td>
+      </tr>
+    </form>
+  </table>
+
+  <div>
+    <h4>収入一覧</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+      <tr class="bg-secondary text-center">
+        <th class="px-2">日付</th>
+        <th class="px-2">項目</th>
+        <th class="px-2">金額</th>
+        <th class="px-2">更新</th>
+        <th class="px-2">削除</th>
+      </tr>
+    <% @incomes.each do |income| %>
+    <% if !income['income'].nil? %>
+      <form action="/wbop" method="post">
+      <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" id="current_id" name="current_id" value="<%= income['id'] %>">
+      <tr class="text-center">
+        <td><input type="date" id="renewal_date_of_income" name="renewal_date_of_income" value="<%= income['date_of_income']%>"></td>
+        <td><input type="text" id="renewal_income_type" name="renewal_income_type" value="<%= income['income_type'] %>"></td>
+        <td><input type="number" id="renewal_income" name="renewal_income" value="<%= income['income'] %>"></td>
+        <td><input type="submit" value="更新" ></td>
+      </form>
+      <form action="/wbop" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" id="current_id" name="current_id" value="<%= income['id'] %>">
+        <td><input type="submit" value="削除" ></td>
+      </tr>
+      </form>
+      <% end %>
+    <% end %>
+    </table>
+  </div>
+
+  <div>
+    <h4>支出一覧</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+      <tr class="bg-secondary text-center">
+        <th class="px-2">日付</th>
+        <th class="px-2">項目</th>
+        <th class="px-2">金額</th>
+        <th class="px-2">更新</th>
+        <th class="px-2">削除</th>
+      </tr>
+    <% @expenses.each do |expense| %>
+    <% if !expense['expense'].nil? %>
+      <form action="/wbop" method="post">
+      <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" id="current_id" name="current_id" value="<%= expense['id'] %>">
+      <tr class="text-center">
+        <td><input type="date" id="renewal_date_of_expense" name="renewal_date_of_expense" value="<%= expense['date_of_expense'] %>"></td>
+        <td><input type="text" id="renewal_expense_type" name="renewal_expense_type" value="<%= expense['expense_type'] %>"></td>
+        <td><input type="number" id="renewal_expense" name="renewal_expense" value="<%= expense['expense'] %>"></td>
+        <td><input type="submit" value="更新"></td>
+      </form>
+      <form action="/wbop" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" id="current_id" name="current_id" value="<%= expense['id'] %>">
+        <td><input type="submit" value="削除"></td>
+      </tr>
+      </form>
+      <% end %>
+    <% end %>
+    </table>
+  </div>
+
+  <div>
+    <h4>収支バランス</h4>
+    <table class="mb-5 table-bordered table-hover table-striped bg-light">
+        <tr class="bg-secondary text-center">
+          <th class="px-5">総収入</th>
+          <th class="px-5">総支出</th>
+          <th class="px-5">収支バランス</th>
+        </tr>
+        <tr class="text-center">
+          <td><%= @total_income_by_range['sum'] %></td>
+          <td><%= @total_expenditure_by_range['sum'] %></td>
+          <td><%= primary_balance %></td>
+        </tr>
+    </table>
+  </div>
+
+  <a href="/mypage"><button type="button" class="btn btn-secondary btn-lg mt-5">戻る</button></a>
+</div>

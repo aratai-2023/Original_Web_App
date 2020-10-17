@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HHABapp</title>
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand ml-5" href="/">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <% if session[:user] %>
+          <a class="nav-link ml-5" href="/mypage">Mypage <span class="sr-only">(current)</span></a>
+          <% end %>
+          <% if session[:user].nil? %>
+          <a class="nav-link ml-3" href="/signup" data-toggle="modal" data-target="#signup">Signup</a>
+<%#ここから モーダルでのサインアップを実装%>
+            <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="signupmodal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content bg-light">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="signupmodal">アカウント登録</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <form action="/signup" method="post">
+                      <div class="mb-2">
+                        <label for="name">name: </label>
+                        <input type="text" id="name" name="name">
+                      </div>
+                      <div class="mb-2">
+                        <label for="email">email: </label>
+                        <input type="email" id="email" name="email">
+                      </div>
+                      <div class="mb-4">
+                        <label for="password">password: </label>
+                        <input type="password" id="password" name="password">
+                      </div>
+                      <p>既にアカウントをお持ちの方は<a href="/login" data-toggle="modal" data-target="#login" data-dismiss="modal">ログイン</a>してください</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Signup</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+<%#ここまで%>
+          <a class="nav-link ml-3" href="/login" data-toggle="modal" data-target="#login">Login</a>
+<%#ここから モーダルでのログインを実装%>
+            <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content bg-light">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="loginmodal">ログイン</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <form action="/login" method="post">
+                      <div class="mb-2">
+                        <label for="login-email">email: </label>
+                        <input type="email" id="login-email" name="email">
+                      </div>
+                      <div class="mb-4">
+                        <label for="login-password">password: </label>
+                        <input type="password" id="login-password" name="password">
+                      </div>
+                      <p>アカウントをお持ちでない方は<a href="/signup" data-toggle="modal" data-target="#signup" data-dismiss="modal">新規登録</a>を行ってください。</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+<%#ここまで%>
+          <% if session[:user] %>
+            <form action="/logout" name="logout" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <a class="nav-link ml-3" href="javascript:logout.submit()">logout</a>
+            </form>
+          <% end %>
+          <%#<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>%>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <%= yield %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

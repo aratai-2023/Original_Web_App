@@ -1,0 +1,13 @@
+<div class="big-bg">
+<div class="container">
+<h1>家計簿APP</h1>
+<h2>~HouseHold Account Book~</h2>
+<p>シンプルな家計簿アプリです。収入、支出を管理してPrimaryBalanceを確認しましょう。</p>
+<% if session[:user].nil? %>
+  <button type="button" class="btn btn-info btn-lg mr-5 mt-5" data-toggle="modal" data-target="#signup">新規登録</button>
+  <button type="button" class="btn btn-success btn-lg mt-5" data-toggle="modal" data-target="#login">ログイン</button>
+<% else %>
+  <a class="nav-link ml-3" href="javascript:logout.submit()"><button type="button" class="btn btn-secondary btn-lg mt-5">logout</button></a>
+<% end %>
+</div>
+</div>
