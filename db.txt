@@ -1,0 +1,25 @@
+CREATE TABLE users (
+  id SERIAL NOT NULL PRIMARY KEY ,
+  name VARCHAR( 25 ) NOT NULL ,
+  email VARCHAR( 35 ) NOT NULL ,
+  password VARCHAR( 50 ) NOT NULL ,
+  UNIQUE (email)
+);
+
+CREATE TABLE incomes (
+  id SERIAL NOT NULL PRIMARY KEY ,
+  income INTEGER ,
+  income_type VARCHAR( 30 ) ,
+  date_of_income DATE ,
+  user_id INTEGER NOT NULL ,
+  FOREIGN KEY (user_id) references users(id)
+);
+
+CREATE TABLE expenses (
+  id SERIAL NOT NULL PRIMARY KEY ,
+  expense INTEGER ,
+  expense_type VARCHAR( 30 ) ,
+  date_of_expense DATE ,
+  user_id INTEGER NOT NULL ,
+  FOREIGN KEY (user_id) references users(id)
+);

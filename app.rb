@@ -1,22 +1,22 @@
-# require 'sinatra'
-# require 'sinatra/reloader'
-# require 'sinatra/cookies'
-# require 'pry'
-# require 'pg'
-# require 'digest'
+require 'sinatra'
+require 'sinatra/reloader'
+require 'sinatra/cookies'
+require 'pry'
+require 'pg'
+require 'digest'
 
-# enable :sessions
+enable :sessions
 
-# ライブラリの読み込み
-require 'digest'  # digestの読み込み
-require 'bundler' # bundlerの読み込み
-Bundler.require  # Gemfileに書かれているライブラリを一括で読み込み
+# # ライブラリの読み込み
+# require 'digest'  # digestの読み込み
+# require 'bundler' # bundlerの読み込み
+# Bundler.require  # Gemfileに書かれているライブラリを一括で読み込み
 
-# 開発環境のみで使用
-if development? #書き換える
-  require 'sinatra/reloader'
-  require 'pry'
-end
+# # 開発環境のみで使用
+# if development? #書き換える
+#   require 'sinatra/reloader'
+#   require 'pry'
+# end
 
 client = PG::connect(
   :host => ENV.fetch("DB_HOST", "localhost"),
