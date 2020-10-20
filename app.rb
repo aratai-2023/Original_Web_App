@@ -20,9 +20,9 @@ enable :sessions
 
 client = PG::connect(
   :host => ENV.fetch("DB_HOST", "localhost"),
-  :user => ENV.fetch("DB_USER"),
-  :password => ENV.fetch("DB_PASSWORD"),
-  :dbname => ENV.fetch("DB_NAME")
+  :user => ENV.fetch("DB_USER", "taishiarakaki"),
+  :password => ENV.fetch("DB_PASSWORD", ""),
+  :dbname => ENV.fetch("DB_NAME", "hhab")
 )
 
 get '/' do
