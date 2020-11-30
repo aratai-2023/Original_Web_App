@@ -29,10 +29,6 @@ get "/" do
   return erb :top
 end
 
-get "/signup" do
-  return erb :signup
-end
-
 post "/signup" do
   name = params[:name]
   email = params[:email]
@@ -52,10 +48,6 @@ post "/signup" do
     return redirect "/mypage"
   end
 end
-
-# get '/login' do
-#   return erb :login
-# end
 
 post "/login" do
   email = params[:email]
@@ -90,9 +82,6 @@ get "/mypage" do
       "SELECT * FROM expenses WHERE user_id = $1 ORDER BY date_of_expense DESC LIMIT 5 ",
       [session[:user]["id"]]
     ).to_a
-    #"SELECT * FROM expenses WHERE user_id = #{session[:user]['id']}"
-    #↑エスケープ処理ではなく変数展開で書く場合はこんな感じ
-    # binding.pry
     return erb :mypage
   end
 end
@@ -134,7 +123,6 @@ put "/mypage" do
   renewal_date_of_expense = params[:renewal_date_of_expense]
   renewal_expense_type = params[:renewal_expense_type]
   renewal_expense = params[:renewal_expense]
-  # id = params[:current_id]
   client.exec_params(
     "UPDATE expenses SET expense = $1, expense_type = $2, date_of_expense = $3 WHERE id = $4",
     [renewal_expense, renewal_expense_type, renewal_date_of_expense, id]
@@ -155,35 +143,6 @@ delete "/mypage" do
   )
   return redirect "/mypage"
 end
-
-# get '/statistics' do
-#   return erb :statistics
-# end
-
-# get '/dbop' do
-#   dayly_balance_of_payments = params[:dayly_balance_of_payments]
-#   @incomes = client.exec_params(
-#     "SELECT * FROM incomes WHERE user_id = $1 AND date_of_income::text = $2",
-#     [session[:user]['id'],dayly_balance_of_payments]
-#   ).to_a
-#   @expenses = client.exec_params(
-#     "SELECT * FROM expenses WHERE user_id = $1 AND date_of_expense::text = $2",
-#     [session[:user]['id'], dayly_balance_of_payments]
-#   ).to_a
-#   @total_income_by_day = client.exec_params(
-#     "SELECT SUM(income) FROM incomes WHERE user_id = $1 AND date_of_income::text = $2",
-#      [session[:user]['id'], dayly_balance_of_payments]
-#   ).to_a.first #ここかなり手こずった。.to_a.firstしてerbの方でキー指定したら上手く値を取得できた。
-#   @total_expenditure_by_day = client.exec_params(
-#     "SELECT SUM(expense) FROM expenses WHERE user_id = $1 AND date_of_expense::text = $2",
-#      [session[:user]['id'], dayly_balance_of_payments]
-#   ).to_a.first
-#   # binding.pry
-#   def primary_balance
-#     @total_income_by_day['sum'].to_i - @total_expenditure_by_day['sum'].to_i
-#   end
-#   return erb :dbop
-# end
 
 get "/mbop" do
   # monthly_balance_of_payments = params[:monthly_balance_of_payments] LIKE節でのエスケープ処理が難しいためコメントアウトしている
@@ -268,7 +227,6 @@ put "/wbop" do
   renewal_date_of_expense = params[:renewal_date_of_expense]
   renewal_expense_type = params[:renewal_expense_type]
   renewal_expense = params[:renewal_expense]
-  # id = params[:current_id]
   client.exec_params(
     "UPDATE expenses SET expense = $1, expense_type = $2, date_of_expense = $3 WHERE id = $4",
     [renewal_expense, renewal_expense_type, renewal_date_of_expense, id]

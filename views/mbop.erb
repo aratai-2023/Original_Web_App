@@ -1,96 +1,101 @@
 <div class="mbop row">
-<div class="mbop-table col-4">
-<div class="ml-4 mt-4">
-  <div class="mb-3">
-    <h2>収支状況（month）</h2>
+  <div class="mbop-table col-4">
+    <div class="ml-4 mt-4">
+      <div class="mb-3">
+        <h2>収支状況（month）</h2>
+      </div>
+
+      <table class="mb-5 table-bordered table-hover table-striped bg-light">
+        <form action="/mbop" metod="get">
+          <tr class="bg-secondary text-center">
+            <th><label for="monthly_balance_of_payments">対象月（month）</label></th>
+            <th>送信</th>
+          </tr>
+          <tr>
+            <td><input type="month" id="monthly_balance_of_payments" name="monthly_balance_of_payments"
+                value="<%= params[:monthly_balance_of_payments] %>"></td>
+            <td><input type="submit" value="送信"></td>
+          </tr>
+        </form>
+      </table>
+
+      <div>
+        <h4>収入一覧</h4>
+        <table class="mb-5 table-bordered table-hover table-striped bg-light">
+          <tr class="bg-secondary text-center">
+            <th class="px-5">日付</th>
+            <th class="px-5">項目</th>
+            <th class="px-5">金額</th>
+          </tr>
+          <% @incomes.each do |income| %>
+          <% if !income['income'].nil? %>
+          <tr class="text-center">
+            <td><%= income['date_of_income']%></td>
+            <td><%= income['income_type'] %></td>
+            <td><%= income['income'] %></td>
+          </tr>
+          <% end %>
+          <% end %>
+        </table>
+      </div>
+
+      <div>
+        <h4>支出一覧</h4>
+        <table class="mb-5 table-bordered table-hover table-striped bg-light">
+          <tr class="bg-secondary text-center">
+            <th class="px-5">日付</th>
+            <th class="px-5">項目</th>
+            <th class="px-5">金額</th>
+          </tr>
+          <% @expenses.each do |expense| %>
+          <% if !expense['expense'].nil? %>
+          <tr class="text-center">
+            <td><%= expense['date_of_expense']%></td>
+            <td><%= expense['expense_type'] %></td>
+            <td><%= expense['expense'] %></td>
+          </tr>
+          <% end %>
+          <% end %>
+        </table>
+      </div>
+
+      <div>
+        <h4>収支バランス</h4>
+        <table class="mb-5 table-bordered table-hover table-striped bg-light">
+          <tr class="bg-secondary text-center">
+            <th class="px-5">総収入</th>
+            <th class="px-5">総支出</th>
+            <th class="px-5">収支バランス</th>
+          </tr>
+          <tr class="text-center">
+            <td><%= @total_income_by_month['sum'] %></td>
+            <td><%= @total_expenditure_by_month['sum'] %></td>
+            <td><%= primary_balance %></td>
+          </tr>
+        </table>
+      </div>
+
+      <a href="/mypage"><button type="button" class="btn btn-secondary btn-lg mt-5">Back</button></a>
+    </div>
   </div>
 
-  <table class="mb-5 table-bordered table-hover table-striped bg-light">
-    <form action="/mbop" metod="get">
-      <tr class="bg-secondary text-center">
-        <th><label for="monthly_balance_of_payments">対象月（month）</label></th>
-        <th>送信</th>
-      </tr>
-      <tr>
-        <td><input type="month" id="monthly_balance_of_payments" name="monthly_balance_of_payments" value="<%= params[:monthly_balance_of_payments] %>"></td>
-        <td><input type="submit" value="送信"></td>
-      </tr>
-    </form>
-  </table>
-
-  <div>
-    <h4>収入一覧</h4>
-    <table class="mb-5 table-bordered table-hover table-striped bg-light">
-      <tr class="bg-secondary text-center">
-        <th class="px-5">日付</th>
-        <th class="px-5">項目</th>
-        <th class="px-5">金額</th>
-      </tr>
-    <% @incomes.each do |income| %>
-    <% if !income['income'].nil? %>
-      <tr class="text-center">
-        <td><%= income['date_of_income']%></td>
-        <td><%= income['income_type'] %></td>
-        <td><%= income['income'] %></td>
-      </tr>
-      <% end %>
-    <% end %>
-    </table>
-  </div>
-
-  <div>
-    <h4>支出一覧</h4>
-    <table class="mb-5 table-bordered table-hover table-striped bg-light">
-      <tr class="bg-secondary text-center">
-        <th class="px-5">日付</th>
-        <th class="px-5">項目</th>
-        <th class="px-5">金額</th>
-      </tr>
-    <% @expenses.each do |expense| %>
-    <% if !expense['expense'].nil? %>
-      <tr class="text-center">
-        <td><%= expense['date_of_expense']%></td>
-        <td><%= expense['expense_type'] %></td>
-        <td><%= expense['expense'] %></td>
-      </tr>
-      <% end %>
-    <% end %>
-    </table>
-  </div>
-
-  <div>
-    <h4>収支バランス</h4>
-    <table class="mb-5 table-bordered table-hover table-striped bg-light">
-        <tr class="bg-secondary text-center">
-          <th class="px-5">総収入</th>
-          <th class="px-5">総支出</th>
-          <th class="px-5">収支バランス</th>
-        </tr>
-        <tr class="text-center">
-          <td><%= @total_income_by_month['sum'] %></td>
-          <td><%= @total_expenditure_by_month['sum'] %></td>
-          <td><%= primary_balance %></td>
-        </tr>
-    </table>
-  </div>
-
-  <a href="/mypage"><button type="button" class="btn btn-secondary btn-lg mt-5">戻る</button></a>
-</div>
-</div>
-
-<div class="mbop-graph col-8">
-<canvas id="monthly_incomes"></canvas>
-  <script>
-  var ctx = document.getElementById("monthly_incomes");
-  var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      <% incomes_type = [] %>
-      <% @monthly_incomes_type.each do |income_type| %>
-      labels: <%= incomes_type.push(income_type['income_type']) %>,
-      <% end %>
-      datasets: [{
-          backgroundColor: [
+  <div class="mbop-graph col-8">
+    <canvas id="monthly_incomes"></canvas>
+    <script>
+      var ctx = document.getElementById("monthly_incomes");
+      var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          <
+          % incomes_type = [] % >
+          <
+          % @monthly_incomes_type.each do |income_type | % >
+            labels: < %= incomes_type.push(income_type['income_type']) % > ,
+          <
+          %
+          end % >
+          datasets: [{
+            backgroundColor: [
               "#BB5179",
               "#FAFF67",
               "#58A27C",
@@ -98,34 +103,42 @@
               "#66CCFF",
               "#FF99FF",
               "#FF9966"
-          ],
-          <% incomes_type_total = [] %>
-          <% @incomes_type_total.each do |income_type_total| %>
-          data: <%= incomes_type_total.push(income_type_total['sum']) %>,
-          <% end %>
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: '収入 割合'
-      }
-    }
-  });
-  </script>
+            ],
+            <
+            % incomes_type_total = [] % >
+            <
+            % @incomes_type_total.each do |income_type_total | % >
+              data: < %= incomes_type_total.push(income_type_total['sum']) % > ,
+            <
+            %
+            end % >
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: '収入 割合'
+          }
+        }
+      });
+    </script>
 
-<canvas id="monthly_expenses"></canvas>
-  <script>
-  var ctx = document.getElementById("monthly_expenses");
-  var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      <% expenses_type = [] %>
-      <% @monthly_expenses_type.each do |expense_type| %>
-      labels: <%= expenses_type.push(expense_type['expense_type']) %>,
-      <% end %>
-      datasets: [{
-          backgroundColor: [
+    <canvas id="monthly_expenses"></canvas>
+    <script>
+      var ctx = document.getElementById("monthly_expenses");
+      var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          <
+          % expenses_type = [] % >
+          <
+          % @monthly_expenses_type.each do |expense_type | % >
+            labels: < %= expenses_type.push(expense_type['expense_type']) % > ,
+          <
+          %
+          end % >
+          datasets: [{
+            backgroundColor: [
               "#BB5179",
               "#FAFF67",
               "#58A27C",
@@ -133,20 +146,24 @@
               "#66CCFF",
               "#FF99FF",
               "#FF9966"
-          ],
-          <% expenses_type_total = [] %>
-          <% @expenses_type_total.each do |expense_type_total| %>
-          data: <%= expenses_type_total.push(expense_type_total['sum']) %>,
-          <% end %>
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: '支出 割合'
-      }
-    }
-  });
-  </script>
-</div>
+            ],
+            <
+            % expenses_type_total = [] % >
+            <
+            % @expenses_type_total.each do |expense_type_total | % >
+              data: < %= expenses_type_total.push(expense_type_total['sum']) % > ,
+            <
+            %
+            end % >
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: '支出 割合'
+          }
+        }
+      });
+    </script>
+  </div>
 </div>
