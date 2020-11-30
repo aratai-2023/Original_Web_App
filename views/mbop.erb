@@ -86,14 +86,10 @@
       var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-          <
-          % incomes_type = [] % >
-          <
-          % @monthly_incomes_type.each do |income_type | % >
-            labels: < %= incomes_type.push(income_type['income_type']) % > ,
-          <
-          %
-          end % >
+          <% incomes_type = [] %>
+          <% @monthly_incomes_type.each do |income_type | %>
+            labels: <%= incomes_type.push(income_type['income_type']) %>,
+          <% end %>
           datasets: [{
             backgroundColor: [
               "#BB5179",
@@ -104,14 +100,10 @@
               "#FF99FF",
               "#FF9966"
             ],
-            <
-            % incomes_type_total = [] % >
-            <
-            % @incomes_type_total.each do |income_type_total | % >
-              data: < %= incomes_type_total.push(income_type_total['sum']) % > ,
-            <
-            %
-            end % >
+            <% incomes_type_total = [] %>
+            <% @incomes_type_total.each do |income_type_total | %>
+              data: <%= incomes_type_total.push(income_type_total['sum']) %>,
+            <% end %>
           }]
         },
         options: {
@@ -129,14 +121,10 @@
       var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-          <
-          % expenses_type = [] % >
-          <
-          % @monthly_expenses_type.each do |expense_type | % >
-            labels: < %= expenses_type.push(expense_type['expense_type']) % > ,
-          <
-          %
-          end % >
+          <% expenses_type = [] %>
+          <% @monthly_expenses_type.each do |expense_type | %>
+            labels: <%= expenses_type.push(expense_type['expense_type']) %>,
+          <% end %>
           datasets: [{
             backgroundColor: [
               "#BB5179",
@@ -147,14 +135,10 @@
               "#FF99FF",
               "#FF9966"
             ],
-            <
-            % expenses_type_total = [] % >
-            <
-            % @expenses_type_total.each do |expense_type_total | % >
-              data: < %= expenses_type_total.push(expense_type_total['sum']) % > ,
-            <
-            %
-            end % >
+            <% expenses_type_total = [] %>
+            <% @expenses_type_total.each do |expense_type_total | %>
+              data: <%= expenses_type_total.push(expense_type_total['sum']) %>,
+            <% end %>
           }]
         },
         options: {
