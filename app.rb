@@ -37,16 +37,20 @@ post "/signup" do
   name = params[:name]
   email = params[:email]
   password = params[:password]
-  client.exec_params(
-    "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
-    [name, email, password]
-  )
-  user = client.exec_params(
-    "SELECT * FROM users WHERE email = $1 AND password = $2",
-    [email, password]
-  ).to_a.first
-  session[:user] = user
-  return redirect "/mypage"
+  if name.empty? || email.empty? || password.empty?
+    redirect "/"
+  else
+    client.exec_params(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
+      [name, email, password]
+    )
+    user = client.exec_params(
+      "SELECT * FROM users WHERE email = $1 AND password = $2",
+      [email, password]
+    ).to_a.first
+    session[:user] = user
+    return redirect "/mypage"
+  end
 end
 
 # get '/login' do
