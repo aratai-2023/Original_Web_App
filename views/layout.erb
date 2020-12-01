@@ -33,18 +33,21 @@
                     </button>
                   </div>
                   <div class="modal-body text-center">
-                    <form action="/signup" method="post">
+                    <form name="signup" action="/signup" method="post" onsubmit="return formCheck()">
                       <div class="mb-2">
                         <label for="name">name: </label>
                         <input type="text" id="name" name="name">
+                        <p id="blank_name" class="blank_attention">※名前を入力してください</p>
                       </div>
                       <div class="mb-2">
                         <label for="email">email: </label>
                         <input type="email" id="email" name="email">
+                        <p id="blank_email" class="blank_attention">※メールアドレスを入力してください</p>
                       </div>
                       <div class="mb-4">
                         <label for="password">password: </label>
                         <input type="password" id="password" name="password">
+                        <p id="blank_password" class="blank_attention">※パスワードを入力してください</p>
                       </div>
                       <p>既にアカウントをお持ちの方は<a href="/login" data-toggle="modal" data-target="#login" data-dismiss="modal">ログイン</a>してください</p>
                   </div>
@@ -72,11 +75,11 @@
                     <form action="/login" method="post">
                       <div class="mb-2">
                         <label for="login-email">email: </label>
-                        <input type="email" id="login-email" name="email">
+                        <input type="email" id="login-email" name="email" required>
                       </div>
                       <div class="mb-4">
                         <label for="login-password">password: </label>
-                        <input type="password" id="login-password" name="password">
+                        <input type="password" id="login-password" name="password" required>
                       </div>
                       <p>アカウントをお持ちでない方は<a href="/signup" data-toggle="modal" data-target="#signup" data-dismiss="modal">新規登録</a>を行ってください。</p>
                   </div>

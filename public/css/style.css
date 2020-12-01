@@ -86,3 +86,9 @@ aside {
 .mbop-graph {
     width: 50%;
 }
+
+.blank_attention {
+    display: none;
+    color: red;
+    font-size: 0.8rem;
+}
