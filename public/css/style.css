@@ -92,3 +92,10 @@ aside {
     color: red;
     font-size: 0.8rem;
 }
+
+select {
+    /* -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; */
+    padding: 6px 30px;
+}
