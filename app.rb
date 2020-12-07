@@ -38,11 +38,11 @@ post "/signup" do
   else
     client.exec_params(
       "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
-      [name, email, password]
+      [name, email, Digest::SHA512.hexdigest(password)]
     )
     user = client.exec_params(
       "SELECT * FROM users WHERE email = $1 AND password = $2",
-      [email, password]
+      [email, Digest::SHA512.hexdigest(password)]
     ).to_a.first
     session[:user] = user
     return redirect "/mypage"
@@ -54,7 +54,7 @@ post "/login" do
   password = params[:password]
   user = client.exec_params(
     "SELECT * FROM users WHERE email = $1 AND password = $2 LIMIT 1",
-    [email, password]
+    [email, Digest::SHA512.hexdigest(password)]
   ).to_a.first
   if user.nil?
     return erb :top
