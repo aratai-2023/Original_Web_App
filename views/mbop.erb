@@ -1,5 +1,5 @@
 <div class="mbop row">
-  <div class="mbop-table col-4">
+  <div class="mbop-table">
     <div class="ml-4 mt-4">
       <div class="mb-3">
         <h2>収支状況（month）</h2>
@@ -79,7 +79,7 @@
     </div>
   </div>
 
-  <div class="mbop-graph col-8">
+  <div class="mbop-graph">
     <canvas id="monthly_incomes"></canvas>
     <script>
       var ctx = document.getElementById("monthly_incomes");
@@ -87,7 +87,7 @@
         type: 'pie',
         data: {
           <% incomes_type = [] %>
-          <% @monthly_incomes_type.each do |income_type | %>
+          <% @monthly_incomes_type.each do | income_type | %>
             labels: <%= incomes_type.push(income_type['income_type']) %>,
           <% end %>
           datasets: [{

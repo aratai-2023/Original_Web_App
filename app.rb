@@ -4,6 +4,7 @@ require "sinatra/cookies"
 require "pry"
 require "pg"
 require "digest"
+require "sinatra/flash"
 
 enable :sessions
 
@@ -57,7 +58,9 @@ post "/login" do
     [email, Digest::SHA512.hexdigest(password)]
   ).to_a.first
   if user.nil?
-    return erb :top
+    flash[:login_error] = "The User dose not exist!"
+    # binding.pry
+    redirect "/"
   else
     session[:user] = user
     return redirect "/mypage"
